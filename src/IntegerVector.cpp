@@ -1,9 +1,9 @@
-#include "Vector.h"
+#include "IntegerVector.h"
 
 /*
 * Main consturctor - gets size and value and initalizes the vector.
 */
-Vector::Vector(size_t size = 0, int value = 0) : _size(size), _capacity(size) {
+IntegerVector::IntegerVector(size_t size = 0, int value = 0) : _size(size), _capacity(size) {
 
 	_data = new int[_capacity];
 	for (size_t index = 0; index < _size; index++) {
@@ -15,7 +15,7 @@ Vector::Vector(size_t size = 0, int value = 0) : _size(size), _capacity(size) {
 /*
 * Size consturctor - gets size and initalizes the vector with size * elements with the value 0.
 */
-Vector::Vector(size_t size) : _size(size), _capacity(size) {
+IntegerVector::IntegerVector(size_t size) : _size(size), _capacity(size) {
 
 	_data = new int[_capacity];
 
@@ -27,7 +27,7 @@ Vector::Vector(size_t size) : _size(size), _capacity(size) {
 /*
 * Copy consturctor - copy the argument vector data into the created vector.
 */
-Vector::Vector(const Vector& other) {
+IntegerVector::IntegerVector(const IntegerVector& other) {
 
 	_size = other._size;
 	_capacity = other._capacity;
@@ -39,7 +39,7 @@ Vector::Vector(const Vector& other) {
 /*
 * Move consturctor - move the argument vector's data control into the created vector.
 */
-Vector::Vector(Vector&& other) noexcept {
+IntegerVector::IntegerVector(IntegerVector&& other) noexcept {
 
 	_size = other._size;
 	_capacity = other._capacity;
@@ -50,7 +50,7 @@ Vector::Vector(Vector&& other) noexcept {
 /*
 * Initializer list consturctor - construct the vector's data from initializer values.
 */
-Vector::Vector(const std::initializer_list<int> initializer) {
+IntegerVector::IntegerVector(const std::initializer_list<int> initializer) {
 
 	_size = initializer.size();
 	_capacity = _size;
@@ -61,7 +61,7 @@ Vector::Vector(const std::initializer_list<int> initializer) {
 /*
 * Destructor - deallocate vector's memory
 */
-Vector::~Vector() {
+IntegerVector::~IntegerVector() {
 
 	if (_data) {
 
@@ -72,7 +72,7 @@ Vector::~Vector() {
 /*
 * operator[] - for random access to vector's values.
 */
-int& Vector::operator[] (size_t index) {
+int& IntegerVector::operator[] (size_t index) {
 
 	if (index < 0 || index > _size - 1) {
 
@@ -84,7 +84,7 @@ int& Vector::operator[] (size_t index) {
 /*
 * const operator[] - for random access to vector's values without changing any of the data.
 */
-const int& Vector::operator[] (size_t index) const {
+const int& IntegerVector::operator[] (size_t index) const {
 
 	if (index < 0 || index > _size - 1) {
 
@@ -97,7 +97,7 @@ const int& Vector::operator[] (size_t index) const {
 /*
 * operator= - copy the argument vector data into the vector and deallocate previous data.
 */
-Vector& Vector::operator= (const Vector& other) {
+IntegerVector& IntegerVector::operator= (const IntegerVector& other) {
 
 	if (this != &other) {
 
@@ -115,7 +115,7 @@ Vector& Vector::operator= (const Vector& other) {
 /*
 * operator= - moves the argument vector data control into the vector and deallocate previous data.
 */
-Vector& Vector::operator= (Vector&& other)noexcept {
+IntegerVector& IntegerVector::operator= (IntegerVector&& other)noexcept {
 
 	if (this != &other) {
 
@@ -132,7 +132,7 @@ Vector& Vector::operator= (Vector&& other)noexcept {
 /*
 * operator= - copy the initializer list data into the vector and deallocate previous data.
 */
-Vector& Vector::operator= (const std::initializer_list<int> initializer) {
+IntegerVector& IntegerVector::operator= (const std::initializer_list<int> initializer) {
 	_size = initializer.size();
 	_capacity = _size;
 	delete[] _data;
@@ -144,7 +144,7 @@ Vector& Vector::operator= (const std::initializer_list<int> initializer) {
 /*
 * swap - swaps the data between two vectors.
 */
-void Vector::swap(Vector& other) {
+void IntegerVector::swap(IntegerVector& other) {
 
 	//swap capacity
 	other._capacity += _capacity;
@@ -168,7 +168,7 @@ void Vector::swap(Vector& other) {
 * push_back - append a value to the end of the vector. if the vector's capacity is not enaugh,
 * than it will allocate more memory.
 */
-void Vector::push_back(const int& value) {
+void IntegerVector::push_back(const int& value) {
 
 	if (_size == _capacity) {
 
@@ -197,7 +197,7 @@ void Vector::push_back(const int& value) {
 /*
 * clear - destroy all data
 */
-void Vector::clear() noexcept {
+void IntegerVector::clear() noexcept {
 
 	_size = 0;
 	_capacity = 0;
@@ -209,7 +209,7 @@ void Vector::clear() noexcept {
 /*
 * resize - change the size of the vector to newSize
 */
-void Vector::resize(size_t newSize) {
+void IntegerVector::resize(size_t newSize) {
 
 	if (newSize > _capacity) {
 		//allocate more memory and copy data.
@@ -228,7 +228,7 @@ void Vector::resize(size_t newSize) {
 	_size = newSize;
 }
 
-void Vector::resize(size_t newSize, const int& value = 0) {
+void IntegerVector::resize(size_t newSize, const int& value = 0) {
 
 	if (newSize > _capacity) {
 		//allocate more memory and copy data.
@@ -245,7 +245,7 @@ void Vector::resize(size_t newSize, const int& value = 0) {
 }
 
 // copy_data - a private function that copy vectors data to another vector data.
-void Vector::copy_data(const int* a, int** b, const size_t& size) {
+void IntegerVector::copy_data(const int* a, int** b, const size_t& size) {
 
 	for (size_t i = 0; i < size; i++) {
 		*(*b + i) = *(a + i);
@@ -253,9 +253,9 @@ void Vector::copy_data(const int* a, int** b, const size_t& size) {
 }
 
 /*
-* operator== - compares std::vector of integers to Vector object to compare results for tests purposes.
+* operator== - compares std::vector of integers to IntegerVector object to compare results for tests purposes.
 */
-bool Vector::operator==(const std::vector<int>& other) const {
+bool IntegerVector::operator==(const std::vector<int>& other) const {
 
 	//compare sizes
 	if (_size != other.size()) return false;
@@ -274,7 +274,7 @@ bool Vector::operator==(const std::vector<int>& other) const {
 * erase - erases data from position to the end of the vector.
 * throws - out of range excepion if position is not a valid position.
 */
-int& Vector::erase(const size_t position) {
+int& IntegerVector::erase(const size_t position) {
 
 	if (position < 0) {
 		throw std::out_of_range("cannot seek vector before begin.");
@@ -293,7 +293,7 @@ int& Vector::erase(const size_t position) {
 * erase - erases data from first position to last position of the vector.
 * throws - out of range excepion if first or last are not a valid position.
 */
-int& Vector::erase(const size_t first, const size_t last) {
+int& IntegerVector::erase(const size_t first, const size_t last) {
 
 	if (first < 0) {
 		throw std::out_of_range("first position must be positive integer within vector size");
@@ -316,7 +316,7 @@ int& Vector::erase(const size_t first, const size_t last) {
 * insert - inserts length times the value to the vector.
 * throws - out of range excepion if position is not a valid position.
 */
-void Vector::insert(size_t position, size_t length, const int& value) {
+void IntegerVector::insert(size_t position, size_t length, const int& value) {
 
 	if (position < 0) {
 		throw std::out_of_range("position must be positive integer within vector size");

@@ -1,2 +1,2 @@
-﻿target_sources (vector PRIVATE "week01_solution.cpp"
-										"Vector.cpp")
+﻿target_sources (IntegerVector PRIVATE "IntegerVectorTests.cpp"
+										"IntegerVector.cpp")

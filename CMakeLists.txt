@@ -1,9 +1,9 @@
 ﻿cmake_minimum_required(VERSION 3.16)
 
-project (vector LANGUAGES CXX)
+project (IntegerVector LANGUAGES CXX)
 set (CMAKE_CXX_STANDARD 20)
 
-add_executable(vector src/week01_solution.cpp)
+add_executable(IntegerVector src/IntegerVectorTests.cpp)
 
 # Include sub-projects.
 add_subdirectory (include)

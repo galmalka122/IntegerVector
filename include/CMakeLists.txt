@@ -1,1 +1,1 @@
-﻿target_include_directories (vector PRIVATE ${CMAKE_CURRENT_LIST_DIR})
+﻿target_include_directories (IntegerVector PRIVATE ${CMAKE_CURRENT_LIST_DIR})
