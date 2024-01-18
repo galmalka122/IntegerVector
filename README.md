@@ -1,10 +1,10 @@
-# Custom Integr IntegerVector
-This is a custom IntegerVector class implemented in C++. It trys to demonstrate the implementation of the STL vector container.
+# Custom Integr Vector
+This is a custom IntegerVector class implemented in C++. It tries to demonstrate the implementation of the STL vector container.
 
 ## Features
 
 - **Constructors**: The IntegerVector class provides several constructors such as the main constructor, size constructor, copy constructor, move constructor, and initializer list constructor.
-- **Memory Management**: The IntegerVector class is responsible for its own management, including dynamically creating and destroying memory.
+- **Memory Management**: The IntegerVector class is responsible for its management, including dynamically creating and destroying memory.
 - **Array Access**: The IntegerVector class supports array index access through the `operator[]` function. It has two overloaded versions, one for read-only access and one for mutable access.
 - **Assignment Operators**: The IntegerVector class supports copy assignment, move assignment, and initializer list assignment.
 - **Extra Functionalities**: The IntegerVector class has various handy functions such as `swap`, `push_back`, `clear`, `resize`, `copy_data`, etc.
