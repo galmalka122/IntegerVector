@@ -1,4 +1,4 @@
-﻿// Week1 Tasks - Vector
+﻿// Week1 Tasks
 // Author: Gal Malka
 
 #pragma once
@@ -6,15 +6,16 @@
 #include <iostream>
 #include <vector>
 
-//A class that represents an integer vector that should operate like std::vector<int> for several functions
+//A class that represents an integer vector
 class Vector {
 
 private:
 
-	size_t _size;//the size of the vector
-	size_t _capacity;//the capacity of the vector
+	size_t _size;
+	size_t _capacity;
 
-	int* _data;//the vector's data
+	int* _data;
+
 
 	void copy_data(const int* a, int** b, const size_t& size);
 
@@ -46,7 +47,6 @@ public:
 	void clear() noexcept;
 	void resize(size_t);
 	void resize(size_t, const int&);
-	void insert(size_t position, size_t index, const int& value);
 
 	int& erase(const size_t position);
 	int& erase(const size_t first, const size_t last);

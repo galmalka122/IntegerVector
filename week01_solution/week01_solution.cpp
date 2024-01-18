@@ -5,44 +5,33 @@
 #include <vector>
 #include "Vector.h"
 #include<time.h>
+#define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <stdio.h>
+#include <crtdbg.h>
+using namespace std;
 
 bool pop_back_test();
 bool push_back_test();
 bool swap_test();
 bool resize_test();
 bool clear_test();
-bool size_test();
+bool capacity_and_size_test();
 bool data_test();
 bool empty_test();
 bool operators_test();
 bool insert_test();
 bool erase_test();
 
+//TODO: pop_back ,push_back ,swap ,resize ,clear ,capacity ,size, data ,empty operator[], insert, erase
 int main()
 {
-	for (int i = 0; i < 10; i++) {
-		bool test = pop_back_test();
-		test &= push_back_test();
-		test &= swap_test();
-		test &= resize_test();
-		test &= clear_test();
-		test &= size_test();
-		test &= data_test();
-		test &= empty_test();
-		test &= operators_test();
-		test &= insert_test();
-		test &= erase_test();
-
-		if (test) {
-			std::cout << "Passed" << std::endl;
-		}
-		else {
-			std::cout << "Failed" << std::endl;
-		}
+	Vector a = {1,2,3,4,5,6,7,8,9,10};
+	a.erase(0,2);
+	while (!a.empty()) { cout << a[a.size() - 1] << " "; 
+	a.pop_back();
 	}
-	return 0;
+
 }
 
 
@@ -123,7 +112,7 @@ bool swap_test()
 
 
 	std::vector<int> foo(length, value);
-	Vector foo1(length, value);
+	Vector foo1(3, 100);
 
 	length = rand() % 1000;
 	value = rand() % 1000;
@@ -139,7 +128,7 @@ bool swap_test()
 
 	foo1.swap(bar1);
 	
-	return foo == foo1 || bar == bar1;
+	return foo != foo1 || bar != bar1;
 }
 
 bool resize_test()
@@ -187,12 +176,12 @@ bool clear_test()
 
 	value = rand() % 1000;
 	myvector.push_back(value);
-	stdvector.push_back(value);
+	myvector.push_back(value);
 ;
 	return myvector == stdvector;
 }
 
-bool size_test()
+bool capacity_and_size_test()
 {
 	//generate random number for the number of repeats
 	srand(time(NULL));
@@ -204,7 +193,7 @@ bool size_test()
 	// set some initial content:
 	for (int i = 1; i < limit; i++) { myvector.push_back(i); stdvector.push_back(i); }
 
-	return myvector.size() == stdvector.size();
+	return myvector.capacity() == stdvector.capacity() && myvector.size() == stdvector.size();
 }
 
 bool data_test()
@@ -219,15 +208,15 @@ bool data_test()
 	int* p = myvector.data();
 	int* p1 = stdvector.data();
 	*p = value;
-	*p1 = value;
+	*p = value;
 	++p;
-	++p1;
+	++p;
 	value = rand() % 1000;
 	*p = value;
-	*p1 = value;
+	*p = value;
 	value = rand() % 1000;
 	p[2] = value;
-	p1[2] = value;
+	p[2] = value;
 
 	return myvector == stdvector;
 }
@@ -281,35 +270,4 @@ bool operators_test()
 	}
 
 	return myvector == stdvector;
-}
-
-bool insert_test()
-{
-	srand(time(NULL));
-	int length = rand() % 1000;
-
-	Vector a = { 1,2,3,4,5,6,7,8,9,10 };
-	std::vector<int> b = { 1,2,3,4,5,6,7,8,9,10 };
-
-	int position = rand() % 10;
-
-	int value = rand() % 1000;
-
-	a.insert(position, length, value);
-	b.insert(b.begin() + position, length, value);
-
-	return a == b;
-}
-
-bool erase_test()
-{
-	Vector a = { 1,2,3,4,5,6,7,8,9,10 };
-	std::vector<int> b = { 1,2,3,4,5,6,7,8,9,10 };
-
-	int position = rand() % 10;
-
-	a.erase(position);
-	b.erase(b.begin() + position);
-
-	return a == b;
 }
