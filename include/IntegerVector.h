@@ -1,7 +1,5 @@
-﻿// Week1 Tasks - IntegerVector
-// Author: Gal Malka
-
-#pragma once
+#ifndef INTEGERVECTOR_H
+#define INTEGERVECTOR_H
 
 #include <iostream>
 #include <vector>
@@ -64,3 +62,5 @@ public:
 	int capacity() { return _capacity; };
 	int size() { return _size; };
 };
+
+#endif // !INTEGERVECTOR_H
