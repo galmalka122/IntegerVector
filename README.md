@@ -21,9 +21,9 @@ IntegerVector v; // Empty IntegerVector
 IntegerVector v(5); // IntegerVector of size 5, all elements initialized to zero.
 IntegerVector v{1, 2, 3, 4}; // IntegerVector initialized with an initializer list.
 ```
-Limitations
-This IntegerVector class is designed to work only with integer values.
-The IntegerVector class might perform sub-ideally for very large data sets due to its dynamic memory allocation strategy.
-Exceptions must be handled properly when using this class, several methods can throw `std::out_of_range` exception on invalid operations, so ensure sufficient error handling in your code.
-Contribution
+## Limitations
+- This IntegerVector class is designed to work only with integer values.
+- The IntegerVector class might perform sub-ideally for very large data sets due to its dynamic memory allocation strategy.
+- Exceptions must be handled properly when using this class, several methods can throw `std::out_of_range` exception on invalid operations, so ensure sufficient error handling in your code.
+## Contribution
 Feel free to contribute to the IntegerVector class by creating a pull request.
