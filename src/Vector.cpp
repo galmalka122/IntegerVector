@@ -1,8 +1,8 @@
 #include "Vector.h"
 
 /*
-	Main consturctor - gets size and value and initalizes the vector.
-	*/
+* Main consturctor - gets size and value and initalizes the vector.
+*/
 Vector::Vector(size_t size = 0, int value = 0) : _size(size), _capacity(size) {
 
 	_data = new int[_capacity];
@@ -12,6 +12,9 @@ Vector::Vector(size_t size = 0, int value = 0) : _size(size), _capacity(size) {
 
 }
 
+/*
+* Size consturctor - gets size and initalizes the vector with size * elements with the value 0.
+*/
 Vector::Vector(size_t size) : _size(size), _capacity(size) {
 
 	_data = new int[_capacity];
@@ -21,6 +24,9 @@ Vector::Vector(size_t size) : _size(size), _capacity(size) {
 	}
 }
 
+/*
+* Copy consturctor - copy the argument vector data into the created vector.
+*/
 Vector::Vector(const Vector& other) {
 
 	_size = other._size;
@@ -30,6 +36,9 @@ Vector::Vector(const Vector& other) {
 
 }
 
+/*
+* Move consturctor - move the argument vector's data control into the created vector.
+*/
 Vector::Vector(Vector&& other) noexcept {
 
 	_size = other._size;
@@ -38,6 +47,9 @@ Vector::Vector(Vector&& other) noexcept {
 	other._data = nullptr;
 }
 
+/*
+* Initializer list consturctor - construct the vector's data from initializer values.
+*/
 Vector::Vector(const std::initializer_list<int> initializer) {
 
 	_size = initializer.size();
@@ -46,6 +58,9 @@ Vector::Vector(const std::initializer_list<int> initializer) {
 	copy_data(initializer.begin(), &_data, _size);
 }
 
+/*
+* Destructor - deallocate vector's memory
+*/
 Vector::~Vector() {
 
 	if (_data) {
@@ -54,6 +69,9 @@ Vector::~Vector() {
 	}
 }
 
+/*
+* operator[] - for random access to vector's values.
+*/
 int& Vector::operator[] (size_t index) {
 
 	if (index < 0 || index > _size - 1) {
@@ -63,6 +81,9 @@ int& Vector::operator[] (size_t index) {
 	return *(_data + index);
 }
 
+/*
+* const operator[] - for random access to vector's values without changing any of the data.
+*/
 const int& Vector::operator[] (size_t index) const {
 
 	if (index < 0 || index > _size - 1) {
@@ -73,13 +94,16 @@ const int& Vector::operator[] (size_t index) const {
 	return *(_data + index);
 }
 
+/*
+* operator= - copy the argument vector data into the vector and deallocate previous data.
+*/
 Vector& Vector::operator= (const Vector& other) {
 
 	if (this != &other) {
 
 		_size = other._size;
 		_capacity = other._capacity;
-		if(_data)
+		if (_data)
 			delete[] _data;
 		_data = new int[_capacity];
 		copy_data(other._data, &_data, other._size);
@@ -88,11 +112,14 @@ Vector& Vector::operator= (const Vector& other) {
 	return *this;
 }
 
+/*
+* operator= - moves the argument vector data control into the vector and deallocate previous data.
+*/
 Vector& Vector::operator= (Vector&& other)noexcept {
 
 	if (this != &other) {
 
-		delete[] this->_data;
+		delete[] _data;
 		_size = other._size;
 		_capacity = other._capacity;
 		_data = other._data;
@@ -102,25 +129,32 @@ Vector& Vector::operator= (Vector&& other)noexcept {
 	return *this;
 };
 
+/*
+* operator= - copy the initializer list data into the vector and deallocate previous data.
+*/
 Vector& Vector::operator= (const std::initializer_list<int> initializer) {
-	*this = Vector(initializer);
+	_size = initializer.size();
+	_capacity = _size;
+	delete[] _data;
+	_data = new int[_capacity];
+	copy_data(initializer.begin(), &_data, _size);
 	return *this;
 };
 
-
-
+/*
+* swap - swaps the data between two vectors.
+*/
 void Vector::swap(Vector& other) {
 
 	//swap capacity
 	other._capacity += _capacity;
-	_capacity = other._capacity - _capacity ;
+	_capacity = other._capacity - _capacity;
 	other._capacity -= _capacity;
 
 	//swap size
 	other._size += _size;
 	_size = other._size - _size;
 	other._size -= _size;
-
 
 	//swap data
 	int* temp = other._data;
@@ -130,7 +164,10 @@ void Vector::swap(Vector& other) {
 	temp = nullptr;
 }
 
-
+/*
+* push_back - append a value to the end of the vector. if the vector's capacity is not enaugh,
+* than it will allocate more memory.
+*/
 void Vector::push_back(const int& value) {
 
 	if (_size == _capacity) {
@@ -142,7 +179,7 @@ void Vector::push_back(const int& value) {
 		}
 
 		else {
-
+			//allocate more memory and copy data.
 			_capacity = _capacity < 128 ? _capacity * 2 : _capacity * 1.5;
 			int* newData = new int[_capacity];
 			copy_data(_data, &newData, _size);
@@ -152,11 +189,14 @@ void Vector::push_back(const int& value) {
 		}
 	}
 
-	*(_data +_size) = value;
+	*(_data + _size) = value;
 	_size++;
 
-}	
+}
 
+/*
+* clear - destroy all data
+*/
 void Vector::clear() noexcept {
 
 	_size = 0;
@@ -166,10 +206,13 @@ void Vector::clear() noexcept {
 	_data = nullptr;
 }
 
+/*
+* resize - change the size of the vector to newSize
+*/
 void Vector::resize(size_t newSize) {
 
 	if (newSize > _capacity) {
-
+		//allocate more memory and copy data.
 		_capacity = newSize < 128 ? newSize * 2 : newSize * 1.5;
 		int* temp = _data;
 		_data = new int[_capacity];
@@ -177,6 +220,7 @@ void Vector::resize(size_t newSize) {
 		delete[] temp;
 	}
 
+	//initialize the remaining values to 0.
 	for (; _size < newSize; _size++) {
 		_data[_size] = 0;
 	}
@@ -187,30 +231,37 @@ void Vector::resize(size_t newSize) {
 void Vector::resize(size_t newSize, const int& value = 0) {
 
 	if (newSize > _capacity) {
-
+		//allocate more memory and copy data.
 		_capacity = newSize < 128 ? newSize * 2 : newSize * 1.5;
 		int* temp = _data;
 		_data = new int[_capacity];
 		copy_data(_data, &temp, _size);
 		delete[] temp;
 	}
-
+	//initialize  the remaining values to value.
 	for (; _size < newSize; _size++) {
 		_data[_size] = value;
 	}
 }
 
-void Vector::copy_data(const int* a, int** b,const size_t& size) {
-	
+// copy_data - a private function that copy vectors data to another vector data.
+void Vector::copy_data(const int* a, int** b, const size_t& size) {
+
 	for (size_t i = 0; i < size; i++) {
 		*(*b + i) = *(a + i);
 	}
 }
 
+/*
+* operator== - compares std::vector of integers to Vector object to compare results for tests purposes.
+*/
 bool Vector::operator==(const std::vector<int>& other) const {
 
+	//compare sizes
 	if (_size != other.size()) return false;
-	for (size_t i = 0; i < _size ; i++) {
+
+	//compare values
+	for (size_t i = 0; i < _size; i++) {
 		if (_data[i] != other[i]) {
 			return false;
 		}
@@ -219,7 +270,12 @@ bool Vector::operator==(const std::vector<int>& other) const {
 	return true;
 }
 
+/*
+* erase - erases data from position to the end of the vector.
+* throws - out of range excepion if position is not a valid position.
+*/
 int& Vector::erase(const size_t position) {
+
 	if (position < 0) {
 		throw std::out_of_range("cannot seek vector before begin.");
 	}
@@ -233,20 +289,67 @@ int& Vector::erase(const size_t position) {
 	return _data[_size - 1];
 }
 
+/*
+* erase - erases data from first position to last position of the vector.
+* throws - out of range excepion if first or last are not a valid position.
+*/
 int& Vector::erase(const size_t first, const size_t last) {
+
 	if (first < 0) {
-		throw std::out_of_range("cannot seek vector before begin.");
+		throw std::out_of_range("first position must be positive integer within vector size");
 	}
 	if (last > _size - 1) {
-		throw std::out_of_range("cannot seek vector after end.");
+		throw std::out_of_range("last position exceeds vector size");
 	}
 	if (first > last) {
-		throw std::out_of_range("vector erase iterator outside range");
+		throw std::out_of_range("last position must be greater or equal first position");
 	}
 	size_t dif = (last - first);
-	for (size_t i = first; i < last - 1 && i + dif < _size - 1; i++) {
-		_data[i] = _data[i + (last - first)];
+	for (size_t i = first; i + dif < _size; i++) {
+		_data[i] = _data[i + dif];
 	}
 	_size -= dif;
 	return _data[_size - 1];
+}
+
+/*
+* insert - inserts length times the value to the vector.
+* throws - out of range excepion if position is not a valid position.
+*/
+void Vector::insert(size_t position, size_t length, const int& value) {
+
+	if (position < 0) {
+		throw std::out_of_range("position must be positive integer within vector size");
+	}
+
+	if (position > _size) {
+		throw std::out_of_range("position exceeds vector size");
+	}
+
+	//if the poistion to insert value is the last position, than its simply push_back operation
+	if (position == _size) {
+		while (length-- > -1) {
+			push_back(value);
+		}
+	}
+
+	int* temp = _data;
+
+	if (_size + length > _capacity) {
+		//allocate more memory and copy previous data
+		_capacity = (_size + length) > 128 ? (_size + length) * 2 : (_size + length) * 1.5;
+		_data = new int[_capacity];
+		copy_data(temp, &_data, position);
+	}
+
+	//insert length times value th position
+	for (size_t i = position; i < position + length; i++) {
+		*(_data + i) = value;
+	}
+
+	//copy the reamining values into the vector
+	int* newData = _data + (position + length);
+	copy_data((temp + position), &newData, _size - position);
+	_size += length;
+
 }
